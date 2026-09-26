@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Suspense,
   useEffect,
   useMemo,
   useState,
@@ -192,7 +193,7 @@ function orderStatusClass(
   return "order-pending";
 }
 
-export default function AdminOrdersPage() {
+function AdminOrdersPageContent() {
   const searchParams = useSearchParams();
 
   const [orders, setOrders] =
@@ -1214,5 +1215,29 @@ function MiniStat({
 
       <strong>{value}</strong>
     </div>
+  );
+}
+export default function AdminOrdersPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="admin-page">
+          <div
+            style={{
+              padding: 80,
+              textAlign: "center",
+              fontSize: 10,
+              fontWeight: 800,
+              letterSpacing: 1.5,
+              color: "#999",
+            }}
+          >
+            LOADING ORDERS...
+          </div>
+        </main>
+      }
+    >
+      <AdminOrdersPageContent />
+    </Suspense>
   );
 }
